@@ -14,7 +14,7 @@ import (
 // https://adventofcode.com/2024/day/1
 
 // test input
-var testInputOne = `
+const testInputOne = `
 3   4
 4   3
 2   5
@@ -92,7 +92,7 @@ func OneB() error {
 	return nil
 }
 
-var inputOne = `
+const inputOne = `
 64256   78813
 46941   56838
 47111   50531
