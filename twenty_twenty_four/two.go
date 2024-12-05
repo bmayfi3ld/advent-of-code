@@ -28,7 +28,9 @@ func TwoA() error {
 
 	// test answer is 2
 	// real 559
-	rows := strings.Split(strings.TrimSpace(inputTwo), "\n")
+	// e 3
+	// rows := strings.Split(strings.TrimSpace(inputTwo), "\n")
+	rows := strings.Split(strings.TrimSpace(twoEInput), "\n")
 
 	safe := 0
 
@@ -44,7 +46,9 @@ func TwoA() error {
 			safe++
 		}
 
+		// fmt.Printf("finished %-25s with safe %d\n", row, safe)
 	}
+
 
 	fmt.Println(safe)
 
@@ -116,7 +120,8 @@ func TwoBBrute() error {
 	// 580 is wrong real answer to low
 	// 601 is brute force answer
 	// rows := strings.Split(strings.TrimSpace(testInputTwo), "\n")
-	rows := strings.Split(strings.TrimSpace(inputTwo), "\n")
+	// rows := strings.Split(strings.TrimSpace(inputTwo), "\n")
+	rows := strings.Split(strings.TrimSpace(twoEInput), "\n")
 
 	safe := 0
 
@@ -290,6 +295,15 @@ var testInputTwo = `
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9
+`
+
+var twoEInput = `
+66 65 63 60 58 57 56 53
+42 44 43 40 39 35 32 31
+71 73 70 69 66 62 61 62
+23 25 21 20 19 19
+2 2 5 6 8 11 13
+27 26 23 20 17 14
 `
 
 var inputTwo = `
