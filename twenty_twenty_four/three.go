@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/bmayfi3ld/advent-of-code/utils/wrapper"
+	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
 	"github.com/pkg/errors"
 )
 

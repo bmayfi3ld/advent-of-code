@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/bmayfi3ld/advent-of-code/utils/wrapper"
+	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
 )
 
 func TempA() error {

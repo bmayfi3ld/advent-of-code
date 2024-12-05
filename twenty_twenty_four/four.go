@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/bmayfi3ld/advent-of-code/utils/wrapper"
+	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
 )
 
 func FourA() error {
@@ -262,8 +262,6 @@ func FourB() error {
 				continue
 			}
 
-
-
 			// need to find 2 for the X
 			maybeFound := 0
 			maybeFound += checkXDOneOClock(row, col, matrix)
@@ -277,9 +275,9 @@ func FourB() error {
 		}
 	}
 
-// 	M.S
-//  .A.
-//  M.S
+	// 	M.S
+	//  .A.
+	//  M.S
 
 	fmt.Println(found)
 
@@ -343,7 +341,6 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX
 `
-
 
 const inputFour = `
 SSSMMSAMXSSSSSSMSSSSMAMSMMSMSMXSASMMMMAMXAXMAXXSSMSSSMSMMSXMAXXMAXSAMXMXMAXXMAAMMMMMAASXMSAMXMASMMSMSMSXXMSMSXAXMSMMSXASXSMMSMMXMMMMXMXAMMSX

@@ -1,13 +1,15 @@
 //go:build mage
+
 package main
 
 import (
 	"fmt"
 	"math"
 	"slices"
+	"strconv"
+	"strings"
 
-	"github.com/bmayfi3ld/advent-of-code/utils/parser"
-	"github.com/bmayfi3ld/advent-of-code/utils/wrapper"
+	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
 	"github.com/pkg/errors"
 )
 
@@ -28,7 +30,7 @@ func OneA() error {
 	defer wrapper.ProfileFunction("OneA")()
 
 	// test answer is 11
-	oneSlice, twoSlice, err := parser.BlockToSlices(inputOne)
+	oneSlice, twoSlice, err := oneParser(inputOne)
 	if err != nil {
 		return errors.WithStack(err)
 	}
@@ -51,6 +53,43 @@ func OneA() error {
 	return nil
 }
 
+// convert matrix of numbers
+// Input string block example
+//
+//	data := `
+//
+// 3   4
+// 4   3
+// 2   5
+// 1   3
+// 3   9
+// 3   3
+func oneParser(data string) ([]int, []int, error) {
+	// Prepare slices for each column
+	var col1, col2 []int
+
+	// Split the string into lines and iterate over each line
+	lines := strings.Split(strings.TrimSpace(data), "\n")
+	for _, line := range lines {
+		// Split each line into fields (columns)
+		fields := strings.Fields(line)
+		if len(fields) == 2 {
+			// Convert strings to integers and append to respective slices
+			val1, err1 := strconv.Atoi(fields[0])
+			val2, err2 := strconv.Atoi(fields[1])
+			if err1 == nil && err2 == nil {
+				col1 = append(col1, val1)
+				col2 = append(col2, val2)
+			} else {
+				// missing err2
+				return nil, nil, errors.WithMessage(err1, "Error converting string to integer:")
+			}
+		}
+	}
+
+	return col1, col2, nil
+}
+
 // https://adventofcode.com/2024/day/1#part2
 
 func OneB() error {
@@ -58,7 +97,7 @@ func OneB() error {
 	defer wrapper.ProfileFunction("OneB")()
 
 	// test answer 31
-	oneSlice, twoSlice, err := parser.BlockToSlices(inputOne)
+	oneSlice, twoSlice, err := oneParser(inputOne)
 	if err != nil {
 		return errors.WithStack(err)
 	}

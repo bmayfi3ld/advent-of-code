@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bmayfi3ld/advent-of-code/utils/wrapper"
+	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
 	"github.com/pkg/errors"
 )
 
@@ -48,7 +48,6 @@ func TwoA() error {
 
 		// fmt.Printf("finished %-25s with safe %d\n", row, safe)
 	}
-
 
 	fmt.Println(safe)
 
