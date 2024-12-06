@@ -62,78 +62,128 @@ func SixA() error {
 	return nil
 }
 
-func SixB() error {
+func sixB(input string, expected int) error {
 	fmt.Println("hello")
 	defer wrapper.ProfileFunction("SixB")()
 
-	// test is 6
-	// grid, startingPos := parseSixInput(sixTestInput)
-	grid, startingPos := parseSixInput(sixInput)
+	grid, startingPos := parseSixInput(input)
+	// preallocate the visit grid, grid is square
+	visitedSpots := make([][]int, len(grid))
+	for i := range visitedSpots {
+		visitedSpots[i] = make([]int, len(grid[i]))
+	}
 
 	stuckRoutes := 0
 
-	fmt.Println("initial route")
-
-	gotOut, initialRoute := findRoute(startingPos, grid)
+	gotOut, visitedSpots := findRoute(startingPos, grid, visitedSpots)
 	if !gotOut {
-		panic("route is broken")
+		visitGrid := strings.Builder{}
+		for _, row := range visitedSpots {
+			visitGrid.WriteString(fmt.Sprintf("%v\n", row))
+		}
+
+		return errors.Errorf("err could not find initial route, visited grid \n%s", visitGrid.String())
 	}
+
+	initialRoute := getMapFromVisitedGrid(visitedSpots)
+
+	// cut it by 3/4 for profiling
+	// keepCount := len(initialRoute) / 4
+	// i := 0
+	// for k := range initialRoute {
+	// 	i++
+	// 	if i > keepCount {
+	// 		delete(initialRoute, k)
+	// 	}
+	// }
 
 	fmt.Printf("checking %d blockers\n", len(initialRoute))
 	bar := progressbar.Default(int64(len(initialRoute)))
 	for _, potentialBlockSpot := range initialRoute {
 		// fmt.Printf("checking if block r %d c %d\n", potentialBlockSpot.rowPos, potentialBlockSpot.colPos)
-		bar.Add(1)
+		err := bar.Add(1)
+		if err != nil {
+			return errors.WithStack(err)
+		}
 
 		// update grid
 		grid[potentialBlockSpot.rowPos][potentialBlockSpot.colPos] = true
 
-		gotOut, _ := findRoute(startingPos, grid)
+		gotOut, _ := findRoute(startingPos, grid, visitedSpots)
 		if !gotOut {
 			stuckRoutes++
 		}
+
+		clearVisitedGrid(visitedSpots)
 
 		// revert grid
 		grid[potentialBlockSpot.rowPos][potentialBlockSpot.colPos] = false
 	}
 
-	fmt.Println(stuckRoutes)
+	if stuckRoutes == expected {
+		fmt.Printf("correct! with %d routes\n", expected)
+	} else {
+		fmt.Printf("wrong! with %d routes\n", stuckRoutes)
+	}
+	// fmt.Println(stuckRoutes)
 
 	return nil
+}
+
+func clearVisitedGrid(visitedSpots [][]int) {
+	for row := range visitedSpots {
+		for col := range visitedSpots[row] {
+			visitedSpots[row][col] = 0
+		}
+	}
+}
+
+func getMapFromVisitedGrid(visitedSpots [][]int) map[string]guardPos {
+	result := make(map[string]guardPos)
+
+	for row := range visitedSpots {
+		for col, times := range visitedSpots[row] {
+			if times > 0 {
+				key := fmt.Sprintf("%d-%d", row, col)
+				result[key] = guardPos{
+					rowPos: row,
+					colPos: col,
+				}
+			}
+		}
+	}
+
+	return result
 }
 
 // runs to see if the guard can get out
 // returns true if he gets out
 // returns the set of locations he visited
 // if ha has visited each existing spot 2 times assume he is stuck
-func findRoute(startingPostion guardPos, grid [][]bool) (bool, map[string]guardPos) {
-	visitedSpots := map[string]guardPos{}
+func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (bool, [][]int) {
 	currentPosition := startingPostion
 
 	for {
 		// record or update location
 		//// by updating times visited
-		pos, exists := visitedSpots[currentPosition.positionKey()]
-		if exists {
-			pos.timesVisited++
-			visitedSpots[currentPosition.positionKey()] = pos
-		} else {
-			visitedSpots[currentPosition.positionKey()] = currentPosition
-		}
+		visitedSpots[currentPosition.rowPos][currentPosition.colPos]++
 
 		//// but also check if stuck
 		atLeastOneStuckSpot := false
-		for _, spots := range visitedSpots {
-			// times stuck being 3, might accidentally hit it 2 times,
-			// three should be stuck
-			if spots.timesVisited > 3 {
-				atLeastOneStuckSpot = true
+		for _, row := range visitedSpots {
+			for _, spot := range row {
+				if spot > 5 { // visited twice if stuck
+					atLeastOneStuckSpot = true
+					break
+				}
+			}
+			if atLeastOneStuckSpot {
 				break
 			}
 		}
 
 		if atLeastOneStuckSpot {
-			return false, visitedSpots
+			return false, nil
 		}
 
 		// move
@@ -176,10 +226,9 @@ const (
 )
 
 type guardPos struct {
-	rowPos       int
-	colPos       int
-	dir          gridDirection
-	timesVisited int // can be how many times the guard visited this spot
+	rowPos int
+	colPos int
+	dir    gridDirection
 }
 
 // just smash x and y together
