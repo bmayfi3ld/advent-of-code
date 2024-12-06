@@ -1,6 +1,4 @@
-//go:build mage
-
-package main
+package twentytwentyfour
 
 const (
 	sixTestInput = `

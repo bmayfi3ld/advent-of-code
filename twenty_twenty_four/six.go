@@ -1,14 +1,19 @@
-//go:build mage
-
-package main
+package twentytwentyfour
 
 import (
 	"fmt"
 	"strings"
 
+	"github.com/bmayfi3ld/advent-of-code/pkg/cmd"
 	wrapper "github.com/bmayfi3ld/advent-of-code/pkg/timer"
+	"github.com/pkg/errors"
 	"github.com/schollz/progressbar/v3"
 )
+
+func init() {
+	cmd.RegisterCommand("2024-6-2-test", func() error { return sixB(sixTestInput, 6) })
+	cmd.RegisterCommand("2024-6-2-real", func() error { return sixB(sixInput, 1831) })
+}
 
 func SixA() error {
 	fmt.Println("hello")

@@ -1,6 +1,6 @@
 //go:build mage
 
-package main
+package twentytwentyfour
 
 import (
 	"fmt"
@@ -85,7 +85,6 @@ func ThreeB() error {
 
 	return nil
 }
-
 
 var threeEInput = `
 mul(5,1);when()}!(%mul(3,2)-,what()($where()how():}mul(1,7)]~>?,<,%^,mul(4,2)/:from()?-how()~}mul(9,2) mul(3,0)~%*~why()^*-from()mul(1,5){{who()why()#mul(8,3)>-?&!-@[mul(4,7)what():[?mul(3,3)#/ (why()+from()when();mul(2,7)-where(10,6)(mul(6,10);];]don't()$mul(1,5):who()^%from()mul(2,9)why()@ when()where()?<;@#do()'< mul(3,9)@@#/>&-@?when(2,4)mul(2,8))]#mul(3,7)?mul(2,3)mul(3,7)@what(),{'^mul(2,3)^mul(5,5)/#why()@~mul(3,8)from();mul(4,2)[mul(7,3)>[$*~don't()mul(2,3)what()?
