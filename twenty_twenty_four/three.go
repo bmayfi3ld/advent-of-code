@@ -17,7 +17,8 @@ func ThreeA() error {
 
 	regex := regexp.MustCompile(`mul\((\d{1,3}),(\d{1,3})\)`)
 
-	matches := regex.FindAllStringSubmatch(threeInput, -1)
+	// matches := regex.FindAllStringSubmatch(threeInput, -1)
+	matches := regex.FindAllStringSubmatch(threeEInput, -1)
 
 	sum := 0
 
@@ -45,7 +46,8 @@ func ThreeB() error {
 
 	regex := regexp.MustCompile(`(mul\((\d{1,3}),(\d{1,3})\))|(do\(\))|(don't)`)
 
-	matches := regex.FindAllStringSubmatch(threeInput, -1)
+	// matches := regex.FindAllStringSubmatch(threeInput, -1)
+	matches := regex.FindAllStringSubmatch(threeEInput, -1)
 
 	sum := 0
 	blocked := false
@@ -83,6 +85,11 @@ func ThreeB() error {
 
 	return nil
 }
+
+
+var threeEInput = `
+mul(5,1);when()}!(%mul(3,2)-,what()($where()how():}mul(1,7)]~>?,<,%^,mul(4,2)/:from()?-how()~}mul(9,2) mul(3,0)~%*~why()^*-from()mul(1,5){{who()why()#mul(8,3)>-?&!-@[mul(4,7)what():[?mul(3,3)#/ (why()+from()when();mul(2,7)-where(10,6)(mul(6,10);];]don't()$mul(1,5):who()^%from()mul(2,9)why()@ when()where()?<;@#do()'< mul(3,9)@@#/>&-@?when(2,4)mul(2,8))]#mul(3,7)?mul(2,3)mul(3,7)@what(),{'^mul(2,3)^mul(5,5)/#why()@~mul(3,8)from();mul(4,2)[mul(7,3)>[$*~don't()mul(2,3)what()?
+`
 
 var threeInput = `
 mul(498,303);when()}!(%mul(846,233)-,what()($where()how():}mul(334,117)]~>?,<,%^,mul(886,213)/:from()?-how()~}mul(343,197) mul(33,616)~%*~why()^*-from()mul(757,847){{who()why()#mul(927,553)>-?&!-@[mul(589,387)what():[?mul(865,934)#/ (why()+from()when();mul(804,792)-where(144,652)(mul(620,348);];]$mul(584,827):who()^%from()mul(381,633)why()@ when()where()?<;@#do()'< mul(643,715)@@#/>&-@?when(295,120)mul(465,37))]#mul(742,669)?mul(519,650)mul(546,337)@what(),{'^mul(769,202)^mul(808,254)/#why()@~mul(71,204)from();mul(150,335)[mul(302,220)>[$*~don't()mul(385,231)what()?*mul(852,324)#$}<{mul(838,178)<;+}@/*mul(579,121)select()why()*{{:mul(810,214)don't(){what()/)who()*%mul(273,606)&]from()@:why()@mul(788,896) }& don't()select()mul(568,713)$$'<who();[[+what()mul(404,402)+<what()why()mul(931,692)*;when()^where()who()what():<mul(815,388)where(),%~select()/select()what()!mul(492,448)+$)mul(962,335)who()}[<)where()>from()@+mul(390,36):@who();&from()mul(984,787)/mul(209,744)why()%[:what()mul(929,15)+how() who()@what()$!mul(751,670)$]from()mul(821,742)why()}:/why()>mul(445,950)>:mul(174,953)-where()how()+:mul(529,661)+{+@@why()##mul(513,442)how(827,318)}~}where()#@-:mul(941,152)~[,+{&@why()+mul(468,787)how()!$from()^^>%~from()mul(497,717)mul(930,672)mul(313,480)^%where()~-))#^select()mul(407,85)<#who()mul(776,808)~select()$?@,<mul(373,713)?')who()$?[>@mul(420,163)mul(666,491)$:+do()mul(823,835){who()?,mul(728,808))[who()/^<;select()~:mul(38,577)+>mul(985,224):/what()where()[%*what()mul(31,270)<><from()@$;mul(233,598)why()/&}mul(326,395)from(),-;-*:don't() &[who()[mul(730,832)%who()who()@how()(,mul(628,729)mul(332,18){-mul(908,439))<}mul(185,715)what()~!>when()[?!!mul(895,903)%who()select()>/when()!mul(367,623)'#+mul(362,189)&from()'#$':$?{mul(571,203)what()mul(615,719)what(),what() )^mul(663,163)$@;&'select()mul(93,614)~(from()mul(490,261)#mul(530,933)}[from()];don't()$%what()%~'&'what()mul(134,307)}from()%;&why(65,575)?/mul(657,957)where()mul(969,590))how()when()how(){mul(534,951)@},mul(141,80<'mul(573,576)why()mul(952,460from()+<?$;where(),mul(810,772)+:${?mul(334,140)~<)select()%>#;;mul(36,336)&don't()&}how()why()select()^mul(267:+(+#'~<mul(894,946)^))mul(633,59)when()mul(335,809)$mul(680[>mul(654,481)--mul(17,334)'!*why())how();-$mul(886,695)mul(954,476)where()!mul(73,181)?@mul(326,125)!@{)*mul(945,965)what()-select()~^who(884,691)how(846,544)mul(346,328)!<^~+-when(871,168):-mul(653,891why()when()how()why()mul(603,626)~+when()where(639,311),#mul(527,536)how()]%{/!-do()'<when()mul(914,232){:~]&why(937,467)mul(116,640)where()mul(391,784~mul(44,854),+<where();/;@^when()mul(919,687)#))mul(70,882)<how()who()+what()(*/:mul(96,388){^-$why(625,585)-mul(240,319);$:where()how()<$[]mul(524,524)]&*&%&mul(124,571)<,}&{#where()@mul(727,591)how()}&#[:?:mul(481,435),when()who()$[:mul(245,145)where() [/-who()what()how()^mul(943,836)%!'when()mul(703,555)$)[mul(227why()mul(923,88)/}& select()mul(908,970)'+how()<who(628,728)/select()%don't()mul&<{/who()mul(199,227)[),how()[~select()mul(540,629)select()mul(167,775)&;}mul(275,320)^mul(911,818)from()when()+-,*,>@mul(368,63)

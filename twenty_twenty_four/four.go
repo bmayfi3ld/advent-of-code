@@ -15,7 +15,8 @@ func FourA() error {
 
 	// test answer 18
 	// matrix := parseInput(testInputFour)
-	matrix := parseInput(inputFour)
+	// matrix := parseInput(inputFour)
+	matrix := parseInput(fourEInput)
 
 	found := 0
 
@@ -243,7 +244,8 @@ func FourB() error {
 
 	// test answer 9
 	// matrix := parseInput(testInputFour)
-	matrix := parseInput(inputFour)
+	// matrix := parseInput(inputFour)
+	matrix := parseInput(fourEInput)
 
 	found := 0
 
@@ -328,6 +330,16 @@ func checkXDElevenOClock(row, col int, matrix [][]string) int {
 
 	return 1
 }
+
+const fourEInput = `
+SSSMMSAMXS
+XAXMAXXSSM
+AMMMXMAXXM
+MSAMXMASMM
+ASMSMMSXAS
+SASAASMSAA
+AASSMMAMMS
+`
 
 const testInputFour = `
 MMMSXXMASM
