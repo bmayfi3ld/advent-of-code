@@ -16,7 +16,7 @@ func FourA() error {
 	// test answer 18
 	// matrix := parseInput(testInputFour)
 	// matrix := parseInput(inputFour)
-	matrix := parseInput(fourEInput)
+	matrix := parseFourInput(fourEInput)
 
 	found := 0
 
@@ -43,7 +43,7 @@ func FourA() error {
 	return nil
 }
 
-func parseInput(in string) [][]string {
+func parseFourInput(in string) [][]string {
 	out := [][]string{}
 
 	rows := strings.Split(strings.TrimSpace(in), "\n")
@@ -245,7 +245,7 @@ func FourB() error {
 	// test answer 9
 	// matrix := parseInput(testInputFour)
 	// matrix := parseInput(inputFour)
-	matrix := parseInput(fourEInput)
+	matrix := parseFourInput(fourEInput)
 
 	found := 0
 
