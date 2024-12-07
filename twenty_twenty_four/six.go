@@ -163,9 +163,9 @@ func getMapFromVisitedGrid(visitedSpots [][]int) map[string]guardPos {
 func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (bool, [][]int) {
 	currentPosition := startingPostion
 
-	// don't check if stuck until 4 turns have been made
-	turnsSinceStuckCheck := 0
-	turnsToCheck := 100 // check after turning this much
+	// don't check if stuck until 4 moves have been made
+	movesSinceStuckCheck := 0
+	movesToCheck := 7500 // check after moving this much
 
 	// there is a strange bug here, where if this number is set too low, the program
 	// will *sometimes* give the wrong answer (off by one)
@@ -177,8 +177,8 @@ func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (b
 		visitedSpots[currentPosition.rowPos][currentPosition.colPos]++
 
 		//// but also check if stuck if we've made a square
-		if turnsSinceStuckCheck == turnsToCheck {
-			turnsSinceStuckCheck = 0
+		if movesSinceStuckCheck == movesToCheck {
+			movesSinceStuckCheck = 0
 			atLeastOneStuckSpot := false
 			for _, row := range visitedSpots {
 				for _, spot := range row {
@@ -212,7 +212,7 @@ func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (b
 		if grid[newRow][newCol] {
 			//// if hitting a box turn
 			turnedDir := currentPosition.getTurnedDirection()
-			turnsSinceStuckCheck++
+
 			currentPosition.dir = turnedDir
 
 		} else {
@@ -221,6 +221,7 @@ func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (b
 			currentPosition.colPos = newCol
 		}
 
+		movesSinceStuckCheck++
 		// fmt.Printf("moved to %v\n", currentPosition)
 	}
 
