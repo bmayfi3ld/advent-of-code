@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{}
+var rootCmd = &cobra.Command{Use: "aoc"}
 
 func GetRootCmd() *cobra.Command {
 	return rootCmd

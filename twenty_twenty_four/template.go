@@ -1,5 +1,3 @@
-//go:build mage
-
 package twentytwentyfour
 
 import (
@@ -10,8 +8,10 @@ import (
 )
 
 func init() {
-	cmd.RegisterCommand("2024-6-2-test", func() error { return sixB(sixTestInput, 6) })
-	cmd.RegisterCommand("2024-6-2-real", func() error { return sixB(sixInput, 1831) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixTestInput, 6) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixTestInput, 6) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixInput, 1831) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixInput, 1831) })
 }
 
 func TempA() error {
