@@ -123,7 +123,7 @@ func sixB(input string, expected int) error {
 	if stuckRoutes == expected {
 		fmt.Printf("correct! with %d routes\n", expected)
 	} else {
-		fmt.Printf("wrong! with %d routes\n", stuckRoutes)
+		fmt.Printf("wrong! with %d routes, expected %d\n", stuckRoutes, expected)
 	}
 	// fmt.Println(stuckRoutes)
 
@@ -163,27 +163,38 @@ func getMapFromVisitedGrid(visitedSpots [][]int) map[string]guardPos {
 func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (bool, [][]int) {
 	currentPosition := startingPostion
 
+	// don't check if stuck until 4 turns have been made
+	turnsSinceStuckCheck := 0
+	turnsToCheck := 100 // check after turning this much
+
+	// there is a strange bug here, where if this number is set too low, the program
+	// will *sometimes* give the wrong answer (off by one)
+	howManyVisitsConsideredStuck := 10
+
 	for {
 		// record or update location
 		//// by updating times visited
 		visitedSpots[currentPosition.rowPos][currentPosition.colPos]++
 
-		//// but also check if stuck
-		atLeastOneStuckSpot := false
-		for _, row := range visitedSpots {
-			for _, spot := range row {
-				if spot > 5 { // visited twice if stuck
-					atLeastOneStuckSpot = true
+		//// but also check if stuck if we've made a square
+		if turnsSinceStuckCheck == turnsToCheck {
+			turnsSinceStuckCheck = 0
+			atLeastOneStuckSpot := false
+			for _, row := range visitedSpots {
+				for _, spot := range row {
+					if spot > howManyVisitsConsideredStuck {
+						atLeastOneStuckSpot = true
+						break
+					}
+				}
+				if atLeastOneStuckSpot {
 					break
 				}
 			}
-			if atLeastOneStuckSpot {
-				break
-			}
-		}
 
-		if atLeastOneStuckSpot {
-			return false, nil
+			if atLeastOneStuckSpot {
+				return false, nil
+			}
 		}
 
 		// move
@@ -201,6 +212,7 @@ func findRoute(startingPostion guardPos, grid [][]bool, visitedSpots [][]int) (b
 		if grid[newRow][newCol] {
 			//// if hitting a box turn
 			turnedDir := currentPosition.getTurnedDirection()
+			turnsSinceStuckCheck++
 			currentPosition.dir = turnedDir
 
 		} else {
