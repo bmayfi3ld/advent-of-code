@@ -8,15 +8,15 @@ import (
 )
 
 func init() {
-	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixTestInput, 6) })
-	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixTestInput, 6) })
-	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixInput, 1831) })
-	cmd.RegisterCommand("2024-t-1-template", func() error { return sixB(sixInput, 1831) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return tempOne(sixTestInput) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return tempOne(sixTestInput) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return tempOne(sixInput) })
+	cmd.RegisterCommand("2024-t-1-template", func() error { return tempOne(sixInput) })
 }
 
-func TempA() error {
+func tempOne(input string) error {
 	fmt.Println("hello")
-	defer wrapper.ProfileFunction("TempA")()
+	defer wrapper.ProfileFunction("tempA")()
 
 	return nil
 }
