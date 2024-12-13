@@ -50,6 +50,7 @@ func twelveTwo(input string) error {
 		total += calcRegionCostSides(tree)
 	}
 
+	// 902742
 	// 895486 is too low
 
 	fmt.Println(total)
@@ -103,31 +104,96 @@ func getSpotsPerimeter(spots map[gridLocation]bool) int {
 	return perimeter
 }
 
+type cornerRef struct {
+	row float64
+	col float64
+}
+
 // should be same as perimeter, but odd corners
 func getSpotsSides(spots map[gridLocation]bool) int {
-	type cornerRef struct {
-		row float64
-		col float64
-	}
-
 	faces := map[cornerRef]int{}
 
 	for spot := range spots {
-		// each spot has 4
-		faces[cornerRef{row: float64(spot.row) - .5, col: float64(spot.col) - .5}] += 1
-		faces[cornerRef{row: float64(spot.row) - .5, col: float64(spot.col) + .5}] += 1
-		faces[cornerRef{row: float64(spot.row) + .5, col: float64(spot.col) + .5}] += 1
-		faces[cornerRef{row: float64(spot.row) + .5, col: float64(spot.col) - .5}] += 1
+		addCornerFaces(spot, faces, spots)
 	}
 
 	sides := 0
-	for _, occurences := range faces {
-		if occurences == 1 || occurences == 3 {
+
+	for _, occurrences := range faces {
+		if occurrences == 1 || occurrences == 3 {
 			sides++
+		}
+
+		if occurrences > 4 {
+			sides += 2
 		}
 	}
 
 	return sides
+}
+
+func addCornerFaces(spot gridLocation, faces map[cornerRef]int, spots map[gridLocation]bool) {
+	// each spot has 4
+	// also check if the corner has one (so this would increase to 2)
+	// if so check for non connecting corners
+
+	// upLeft
+	upLeft := cornerRef{row: float64(spot.row) - .5, col: float64(spot.col) - .5}
+	faces[upLeft]++
+
+	if val, found := faces[upLeft]; found && val == 2 {
+		_, foundUp := spots[gridLocation{row: spot.row - 1, col: spot.col}]
+		_, foundLeft := spots[gridLocation{row: spot.row, col: spot.col - 1}]
+		_, foundUpLeft := spots[gridLocation{row: spot.row - 1, col: spot.col - 1}]
+
+		if !foundUp && !foundLeft && foundUpLeft {
+			faces[upLeft] += 3
+		}
+	}
+
+	// upRight
+	upRight := cornerRef{row: float64(spot.row) - .5, col: float64(spot.col) + .5}
+	faces[upRight]++
+
+	if val, found := faces[upRight]; found && val == 2 {
+		_, foundUp := spots[gridLocation{row: spot.row - 1, col: spot.col}]
+		_, foundRight := spots[gridLocation{row: spot.row, col: spot.col + 1}]
+		_, foundUpRight := spots[gridLocation{row: spot.row - 1, col: spot.col + 1}]
+
+		if !foundUp && !foundRight && foundUpRight {
+			faces[upRight] += 3
+		}
+	}
+
+	// downRight
+	downRight := cornerRef{row: float64(spot.row) + .5, col: float64(spot.col) + .5}
+	faces[downRight]++
+
+	if val, found := faces[downRight]; found && val == 2 {
+		// check for non connecting corners
+		_, foundDown := spots[gridLocation{row: spot.row + 1, col: spot.col}]
+		_, foundRight := spots[gridLocation{row: spot.row, col: spot.col + 1}]
+		_, foundDownRight := spots[gridLocation{row: spot.row + 1, col: spot.col + 1}]
+
+		if !foundDown && !foundRight && foundDownRight {
+			faces[downRight] += 3
+		}
+	}
+
+	// downLeft
+	downLeft := cornerRef{row: float64(spot.row) + .5, col: float64(spot.col) - .5}
+	faces[downLeft]++
+
+	if val, found := faces[downLeft]; found && val == 2 {
+		// check for non connecting corners
+		_, foundDown := spots[gridLocation{row: spot.row + 1, col: spot.col}]
+		_, foundLeft := spots[gridLocation{row: spot.row, col: spot.col - 1}]
+		_, foundDownLeft := spots[gridLocation{row: spot.row + 1, col: spot.col - 1}]
+
+		if !foundDown && !foundLeft && foundDownLeft {
+			faces[downLeft] += 3
+		}
+	}
 }
 
 // parse something like this
