@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "auto",
             "args": [
-                "2024-25-1-test"
+                "2024-24-1-test"
             ],
             "program": "${workspaceFolder}"
         }
